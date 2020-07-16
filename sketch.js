@@ -43,10 +43,6 @@ function draw_text(){
 
 }
 
-function preload(){
-  font = loadFont('assets/AstroSpace-0Wl3o.otf')
-}
-
 function windowResized(){
 	resizeCanvas(windowWidth, windowHeight);
 	for (i = 0; i < numStars; i++) {
@@ -65,7 +61,7 @@ function setup() {
 
   ellipseMode(CENTER)
   angleMode(DEGREES)
-  textFont(font);
+  textFont('Verdana');
 
   for (i = 0; i < numPlanets; i++) {
     planets[i] = new Planet(
