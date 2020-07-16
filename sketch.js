@@ -3,6 +3,9 @@ let numStars;
 
 let planets = [];
 let stars = [];
+let links = [];
+
+let email_icon;
 
 let name = 'Dylan Sigler',
   font,
@@ -23,24 +26,40 @@ let linkedin = 'linkedin',
   l_x,
   l_y;
 
-function draw_text(){
+links = [name, email, github, linkedin];
+
+function draw_text(planets){
   let R = 255,
       G = 255,
       B = 255;
-  //R = map(mouseX, 0, windowWidth, 50, 255);
-  //G = map(mouseY, 0, windowHeight, 50, 255);
-  //B = map(mouseX + mouseY, 0, windowWidth + windowHeight, 50, 255);
+
   fill(R, G, B)
   textAlign(CENTER);
   textSize(name_fontsize);
   text(name, 200, windowHeight - 100);
 
+  push();
+  translate(windowWidth / 2, windowHeight / 2);
   textAlign(LEFT);
   textSize(sub_fontsize);
-  text(email, windowWidth - 300, 100)
-  text(linkedin, windowWidth - 300, 125);
-  text(github, windowWidth - 300, 150)
 
+
+  for(i = 0; i < links.length; i++){
+  	push();
+  	rotate(planets[i].angle1);
+  	text(links[i], planets[i].distance, 0);
+  	pop();
+  }
+  pop();
+}
+
+function draw_images(){
+  image(email_icon, 0, 0);
+  push();
+  translate(windowWidth / 2, windowHeight / 2);
+  rotate(planets[i].angle1);
+  image(email_icon, planets[i].distance, 0, 100, 100);
+  pop();
 }
 
 function windowResized(){
@@ -51,8 +70,12 @@ function windowResized(){
  	}
 }
 
+function preload(){
+	email_icon = loadImage('assets/images/icons8-email-80.png')
+}
+
 function setup() {
-  numPlanets = random(3, 10);
+  numPlanets = links.length;
   numStars = random(400, 1000);
 
   canvas = createCanvas(windowWidth, windowHeight);
@@ -65,9 +88,9 @@ function setup() {
 
   for (i = 0; i < numPlanets; i++) {
     planets[i] = new Planet(
-      random(10, 35), //radius
-      random(40, windowHeight / 2), //distance
-      random(-1.6, 1.6)); //speed
+      random(50, 75), //radius
+      random(80, windowHeight / 2), //distance
+      random(-.3, .3)); //speed
   }
   for (i = 0; i < numStars; i++) {
     stars[i] = new Star(random(windowWidth), random(windowHeight), 1)
@@ -78,7 +101,7 @@ function draw() {
   background(0);
   noStroke();
   fill(245, 255, 66);
-  ellipse(windowWidth / 2, windowHeight / 2, 40, 40);
+  ellipse(windowWidth / 2, windowHeight / 2, 90, 90);
 
   for (i = 0; i < numStars; i++) {
     stars[i].star();
@@ -87,7 +110,7 @@ function draw() {
     planets[i].planet();
   }
   
-  draw_text()
+  draw_text(planets)
 }
 
 class Planet {
