@@ -1,6 +1,6 @@
 html * {
 	color: white !important;
-	font-family: 'my_font' !important;
+	font-family: 'my_font', Times, serif !important;
 }
 
 @font-face {
