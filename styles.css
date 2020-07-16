@@ -1,0 +1,9 @@
+html * {
+	color: white !important;
+	font-family: 'my_font' !important;
+}
+
+@font-face {
+	font-family: 'my_font';
+	src: url("assets/AstroSpace-0Wl3o.otf");
+}
