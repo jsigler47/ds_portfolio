@@ -30,46 +30,6 @@ let linkedin = 'linkedin',
 
 links = [email, github, linkedin];
 
-
-function draw_text(planets){
-  let R = 255,
-      G = 255,
-      B = 255;
-
-  fill(R, G, B)
-  textAlign(CENTER);
-  textSize(name_fontsize);
-  text(name, 200, windowHeight - 100);
-
-  push();
-  translate(windowWidth / 2, windowHeight / 2);
-  textAlign(LEFT);
-  textSize(sub_fontsize);
-
-
-  for(i = 0; i < links.length; i++){
-  	push();
-  	rotate(planets[i].angle1);
-  	text(links[i], planets[i].distance, 0);
-  	pop();
-  }
-  pop();
-}
-
-function draw_images(planets){
-  push();
-  imageMode(CENTER);
-  translate(windowWidth / 2, windowHeight / 2);
-  image(home_icon, 0, 0, 60, 60);
-  for(i = 0; i < images.length; i++){
-  	push();
-  	rotate(planets[i].angle1);
-	image(images[i], planets[i].distance, 0, planets[i].radius - 20, planets[i].radius - 20);
-	pop();
-  }  
-  pop();
-}
-
 function windowResized(){
 	resizeCanvas(windowWidth, windowHeight);
 	for (i = 0; i < numStars; i++) {
@@ -102,11 +62,18 @@ function setup() {
     planets[i] = new Planet(
       random(50, 75), //radius
       random(80, windowHeight / 2), //distance
-      random(-.3, .3)); //speed
+      random(-.2, .2), //speed
+      images[i]);
   }
   for (i = 0; i < numStars; i++) {
     stars[i] = new Star(random(windowWidth), random(windowHeight), 1)
   }
+
+
+  testButton = new Clickable(windowWidth / 2, windowHeight / 2);
+  testButton.color = "#FFFFFF";
+  testButton.strokeWeight = 2;
+  testButton.text = "Press Me";
 }
 
 function draw() {
@@ -114,25 +81,32 @@ function draw() {
   noStroke();
   fill(245, 255, 66);
   ellipse(windowWidth / 2, windowHeight / 2, 90, 90);
+  imageMode(CENTER);
+  image(home_icon, windowWidth / 2, windowHeight / 2, 60, 60);
 
   for (i = 0; i < numStars; i++) {
     stars[i].star();
   }
   for (i = 0; i < numPlanets; i++) {
     planets[i].planet();
+    planets[i].icon();
   }
-  
-  //draw_text(planets)
-  draw_images(planets)
+  //testButton.draw()
 }
 
 class Planet {
-  constructor(radius, distance, speed) {
+  constructor(radius, distance, speed, image) {
     this.radius = radius;
     this.distance = distance;
     this.speed = speed;
     this.color = color(random(0, 255), random(0, 255), random(0, 255));
-    this.angle1 = random(0, 500);
+    this.angle1 = random(0, 360);
+    this.angle2 = -this.angle1;
+    this.image = image;
+
+    if (this.speed == 0){
+    	this.speed = .2;
+    }
   }
 
   planet() {
@@ -141,8 +115,25 @@ class Planet {
     translate(windowWidth / 2, windowHeight / 2);
     rotate(this.angle1);
     this.angle1 = this.angle1 + this.speed
+    if (this.angle1 >= 360 || this.angle1 <= -360){
+    	this.angle1 = 0;
+    }
     fill(this.color);
     ellipse(this.distance, 0, this.radius);
+    imageMode(CENTER);
+    //image(this.image, this.distance, 0, this.radius - 20, this.radius - 20);
+    //pop();
+  }
+
+  icon() {
+    push();
+    translate(this.distance, 0);
+    rotate(this.angle2);
+    this.angle2 = this.angle2 - this.speed
+    fill(0, 0, 255);
+    //ellipse(0, 0, this.radius / 2);
+    imageMode(CENTER);
+    image(this.image, 0, 0, this.radius - 20, this.radius - 20);
     pop();
   }
 }
