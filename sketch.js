@@ -53,12 +53,12 @@ function draw_text(planets){
   pop();
 }
 
-function draw_images(){
-  image(email_icon, 0, 0);
+function draw_images(planets){
   push();
+  imageMode(CENTER);
   translate(windowWidth / 2, windowHeight / 2);
-  rotate(planets[i].angle1);
-  image(email_icon, planets[i].distance, 0, 100, 100);
+  rotate(planets[0].angle1);
+  image(email_icon, planets[0].distance, 0, planets[0].radius - 20, planets[0].radius - 20);
   pop();
 }
 
@@ -71,7 +71,7 @@ function windowResized(){
 }
 
 function preload(){
-	email_icon = loadImage('assets/images/icons8-email-80.png')
+	email_icon = loadImage('assets/images/email-512.png')
 }
 
 function setup() {
@@ -110,7 +110,8 @@ function draw() {
     planets[i].planet();
   }
   
-  draw_text(planets)
+  //draw_text(planets)
+  draw_images(planets)
 }
 
 class Planet {
