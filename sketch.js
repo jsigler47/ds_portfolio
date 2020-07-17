@@ -4,8 +4,10 @@ let numStars;
 let planets = [];
 let stars = [];
 let links = [];
+let images = [];
 
 let email_icon;
+let github_icon;
 
 let name = 'Dylan Sigler',
   font,
@@ -26,7 +28,8 @@ let linkedin = 'linkedin',
   l_x,
   l_y;
 
-links = [name, email, github, linkedin];
+links = [email, github, linkedin];
+
 
 function draw_text(planets){
   let R = 255,
@@ -57,8 +60,13 @@ function draw_images(planets){
   push();
   imageMode(CENTER);
   translate(windowWidth / 2, windowHeight / 2);
-  rotate(planets[0].angle1);
-  image(email_icon, planets[0].distance, 0, planets[0].radius - 20, planets[0].radius - 20);
+  image(home_icon, 0, 0, 60, 60);
+  for(i = 0; i < images.length; i++){
+  	push();
+  	rotate(planets[i].angle1);
+	image(images[i], planets[i].distance, 0, planets[i].radius - 20, planets[i].radius - 20);
+	pop();
+  }  
   pop();
 }
 
@@ -71,11 +79,15 @@ function windowResized(){
 }
 
 function preload(){
-	email_icon = loadImage('assets/images/email-512.png')
+	home_icon = loadImage('assets/images/home-5-128.png');
+	email_icon = loadImage('assets/images/mail-128.png');
+	github_icon = loadImage('assets/images/GitHub-Mark-Light-120px-plus.png');
+	linkedin_icon = loadImage('assets/images/linkedin-5-128.png');
+	images = [email_icon, github_icon, linkedin_icon];
 }
 
 function setup() {
-  numPlanets = links.length;
+  numPlanets = max(images.length, links.length);
   numStars = random(400, 1000);
 
   canvas = createCanvas(windowWidth, windowHeight);
