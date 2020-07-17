@@ -102,11 +102,17 @@ function setup() {
     planets[i] = new Planet(
       random(50, 75), //radius
       random(80, windowHeight / 2), //distance
-      random(-.3, .3)); //speed
+      random(-.2, .2)); //speed
   }
   for (i = 0; i < numStars; i++) {
     stars[i] = new Star(random(windowWidth), random(windowHeight), 1)
   }
+
+
+  testButton = new Clickable(windowWidth / 2, windowHeight / 2);
+  testButton.color = "#FFFFFF";
+  testButton.strokeWeight = 2;
+  testButton.text = "Press Me";
 }
 
 function draw() {
@@ -124,6 +130,7 @@ function draw() {
   
   //draw_text(planets)
   draw_images(planets)
+  testButton.draw()
 }
 
 class Planet {
@@ -143,6 +150,9 @@ class Planet {
     this.angle1 = this.angle1 + this.speed
     fill(this.color);
     ellipse(this.distance, 0, this.radius);
+
+    //stroke(255)
+    //line(0, 0, this.distance, 0);
     pop();
   }
 }
